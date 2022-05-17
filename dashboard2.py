@@ -1,3 +1,4 @@
+from pickle import TRUE
 from dash import Dash
 import dash, dash_table
 import dash_core_components as dcc
@@ -12,7 +13,11 @@ external_stylesheets = [
     },
 ]
 
+
+
 df = pd.read_csv("data/final_list.csv")
+
+df.rename(columns={"Unnamed: 0": "Index", ""}, inplace = TRUE)
 
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -30,8 +35,8 @@ app.layout = html.Div(
             columns=[{"name": i, "id": i} for i in df.columns],
             data=df.to_dict('records'),
             )
-        ], className="wrapper",
-    )
+    ], className="wrapper",
+)
 
 if __name__ == '__main__':
-        app.run_server(debug=True, use_reloader=False)
+    app.run_server(debug=True, use_reloader=False)
