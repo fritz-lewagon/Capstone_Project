@@ -1,42 +1,149 @@
 body {
-    font-family: "Lato", sans-serif;
+    background: #F7F9FC;
+    color: #575F7D;
+    font-family: 'Lora', serif;
+    font-weight: lighter;
     margin: 0;
     padding: 0;
-    background-color: grey;
+}
+
+img {
+    width: 320px;
+    margin-bottom: 30px;
 }
 
 
-.header-description {
-    color: #CFCFCF;
-    margin: 4px auto;
+/********************* TEXT *********************/
+
+h1 {
+    margin-top: 50px;
+    text-transform: uppercase;
+    font-size: 40px;
     text-align: center;
 }
 
-#container {
-    width: 100%; 
-    overflow: hidden;
-  }
+p {
+    margin-left: 20px;
+}
 
-
-.header {
-    background-color: #222222;
-    height: 288px;
-    padding: 16px 0 0 0;
+.dropdown-labels {
+    margin-left: 20px;
+    font-weight: bold;
 }
 
 .header-title {
-    color: #FFFFFF;
     font-size: 48px;
     font-weight: bold;
     text-align: center;
     margin: 0 auto;
 }
 
-.wrapper {
-    margin-right: auto;
-    margin-left: auto;
-    width:100%;    
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-top: 32px;
+
+/********************* SECTIONS *********************/
+
+#container {
+    width: 100%; 
+    overflow: hidden;
+    margin: 40px auto;
+}
+
+#header-container {
+    padding: 30px;                             /* Internal space */
+    border-radius: 4px;                        /* Small radius */
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);    /* Light shadow */
+}
+
+#interactive-container {
+    padding: 30px;                             /* Internal space */
+    border-radius: 4px;                        /* Small radius */
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);    /* Light shadow */
+    float: center;
+}
+
+#data-container {
+    padding: 30px;                             /* Internal space */
+    border-radius: 4px;                        /* Small radius */
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+
+
+#table {
+    height: 420px;
+    width: 90%; 
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 15px;
+}
+
+.header-description {
+    margin: 4px auto;
+    text-align: center;
+}
+
+
+.header {
+    height: 288px;
+    padding: 16px 0 0 0;
+}
+
+
+
+
+/********************* BUTTONS *********************/
+
+#update-button {
+    width: 240px;
+    height: 40px;
+    border-radius: 5px;
+    margin-left: 38px;
+    margin-top: 30px;
+    border: 0px;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+#update-button:hover {
+    background-color: #FFBD59;
+    color: white;
+}
+
+
+/********************* DROPDOWNS *********************/
+
+#dropdown-fields {
+    width: 100px;
+}
+
+.dropdown {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 5px;
+}
+
+.dropdown .Select-control{
+    background-color: white;
+}
+
+.dropdown .Select-menu-outer{
+    background-color: white;
+}
+
+.dropdown .Select-value{
+    background-color: #3BA27A;
+    color: white;
+    font-size: 14px;  
+}
+
+.dropdown .VirtualizedSelectFocusedOption {
+    background-color: #a5ecd1;
+    color: black;
+}
+
+.dropdown .VirtualizedSelectOption  {
+    font-size: 14px;
 }

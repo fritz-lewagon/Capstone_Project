@@ -5,6 +5,10 @@ import dash, dash_table
 import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
+import plotly.graph_objects as go
+import seaborn as sns
+
+
 
 external_stylesheets = [
     {
@@ -28,7 +32,18 @@ inplace = TRUE)
 
 
 # dash has problems with NAs, therefore they are filled with a string
-df["Year Founded"] = df["Year Founded"].fillna("No Information")
+df = df.fillna("No Information")
+
+
+
+columns = df.columns
+table = go.Figure(data=[go.Table(
+    header=dict(values=columns),
+    cells=dict(values=[df[c] for c in columns])
+)])
+
+
+
 
 
 # dash starts here
@@ -44,20 +59,31 @@ app.layout = html.Div([
             html.Img(src=("/assets/Logo.png"),className="logo-title"),
             html.H1(children="Start Up List",className="header-title",),
             html.P(children="Last scrape was the 12.12.12",className="header-description",),
-        ], id = "header-part"),
+        ], id = "header-container"),
 
-        html.Br(),
 
-         # dropdown
+         # interactive part
         html.Div([
+            html.Label("Year", className='dropdown-labels'),
+
             dcc.Dropdown(
-            id="dropdown",
             options=[{"label": x, "value": x} for x in df["Year Founded"].unique()],
             multi=True,
+            className='dropdown-fields',
             ),
-        ], id = "dropdown-part"),
 
-        html.Br(),
+            html.Label("Stage", className='dropdown-labels'),
+
+            dcc.Dropdown(
+            options=[{"label": x, "value": x} for x in df["Stage"].unique()],
+            multi=True,
+            className='dropdown-fields',
+            ),
+
+            # @Miron --> start working here
+            html.Button("Update", id='update-button'),
+        ], id = "interactive-container"),
+
 
         #data part
         html.Div([
@@ -81,10 +107,17 @@ app.layout = html.Div([
                     'maxWidth': '1300px',
                     'overflowY' : 'scroll',}
                 ),
-            ], id = "data-part")
+            ], id = "data-container"),
+
         ], id='container'
     
 )
+
+
+
+### Callbacks to make the app interactive
+
+
 
 
 
