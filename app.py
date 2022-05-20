@@ -36,15 +36,6 @@ df = df.fillna("No Information")
 
 
 
-columns = df.columns
-table = go.Figure(data=[go.Table(
-    header=dict(values=columns),
-    cells=dict(values=[df[c] for c in columns])
-)])
-
-
-
-
 
 # dash starts here
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -56,58 +47,72 @@ app.layout = html.Div([
     
         #header part
         html.Div([
-            html.Img(src=("/assets/Logo.png"),className="logo-title"),
-            html.H1(children="Start Up List",className="header-title",),
-            html.P(children="Last scrape was the 12.12.12",className="header-description",),
-        ], id = "header-container"),
+            html.Img(src=("/assets/Logo.png")),
+            html.H1(children="Start Up List"),
+            html.P(children="Last scrape was the 12.12.12"),
+        ], 
+        id = "header-container"),
 
 
          # interactive part
         html.Div([
-            html.Label("Year", className='dropdown-labels'),
+            
+            html.Div([
+                
+                html.Div([
+                    html.Label("Year", className='dropdown-labels'),
+                    dcc.Dropdown(
+                    options=[{"label": x, "value": x} for x in df["Year Founded"].unique()],
+                    multi=True,
+                    ),
+                ], id = "drop-down-year",
+                ),
 
-            dcc.Dropdown(
-            options=[{"label": x, "value": x} for x in df["Year Founded"].unique()],
-            multi=True,
-            className='dropdown-fields',
-            ),
+                html.Div([
+                    html.Label("Stage", className='dropdown-labels'),
+                    dcc.Dropdown(
+                    options=[{"label": x, "value": x} for x in df["Stage"].unique()],
+                    multi=True,
+                    ),
+                ], id = "drop-down-stage",
+                ),
+        ],id = "drop-downs"
+        ),
 
-            html.Label("Stage", className='dropdown-labels'),
 
-            dcc.Dropdown(
-            options=[{"label": x, "value": x} for x in df["Stage"].unique()],
-            multi=True,
-            className='dropdown-fields',
-            ),
 
             # @Miron --> start working here
             html.Button("Update", id='update-button'),
-        ], id = "interactive-container"),
+        ], 
+        id = "interactive-container"),
 
 
         #data part
         html.Div([
             dash_table.DataTable(
-                style_data={
-                    'whiteSpace': 'normal',
-                    'height': 'auto',
-                    },
                 id='table',
                 columns=[{"name": i, "id": i} for i in df.columns],
                 data=df.to_dict('records'),
                 page_size=20,
+                style_data={
+                    'whiteSpace': 'normal',
+                    'height': 'auto',
+                },
                 style_cell={
                     'textAlign': 'left', 
                     'padding': '5px'},
                 style_header={
-                    'backgroundColor': 'white',
                     'fontWeight': 'bold'
                     },
                 style_table={
                     'maxWidth': '1300px',
-                    'overflowY' : 'scroll',}
+                    'maxHeight' : '500px',
+                    'overflowY': 'scroll'
+                    },
                 ),
-            ], id = "data-container"),
+                
+            ], 
+            id = "data-container"),
 
         ], id='container'
     
