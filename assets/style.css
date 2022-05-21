@@ -9,43 +9,29 @@ body {
 
 img {
     width: 320px;
-    margin-bottom: 30px;
 }
 
 
 /********************* TEXT *********************/
 
 h1 {
-    margin-top: 50px;
     text-transform: uppercase;
     font-size: 40px;
     text-align: center;
 }
 
-p {
-    margin-left: 20px;
-}
 
 .dropdown-labels {
     margin-left: 20px;
     font-weight: bold;
 }
 
-.header-title {
-    font-size: 48px;
-    font-weight: bold;
-    text-align: center;
-    margin: 0 auto;
-}
-
 
 /********************* SECTIONS *********************/
 
 #container {
-    width: 100%; 
-    overflow: hidden;
-    margin: 40px auto;
-    width: 95%;
+    width: 95%; 
+    margin:  auto;
 }
 
 #header-container {
@@ -59,7 +45,6 @@ p {
     padding: 30px;                             /* Internal space */
     border-radius: 4px;                        /* Small radius */
     box-shadow: 0 10px 30px rgba(0,0,0,.1);    /* Light shadow */
-    float: center;
 }
 
 #data-container {
@@ -67,11 +52,16 @@ p {
     border-radius: 4px;                        /* Small radius */
     box-shadow: 0 10px 30px rgba(0,0,0,.1);
     max-height: 500px;
-    margin-left: 35px;
-    margin-right: 35px;
-    margin-top: 15px;
 }
 
+
+#drop-down-year {
+    width: 400px;
+}
+
+#drop-down-stage{
+    width: 400px;
+}
 
 
 /********************* BUTTONS *********************/
