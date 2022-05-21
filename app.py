@@ -61,6 +61,7 @@ app.layout = html.Div([
                     dcc.Dropdown(
                     options=[{"label": x, "value": x} for x in df["Year Founded"].unique()],
                     multi=True,
+                    id = "year-dropdown"
                     ),
                 ], id = "drop-down-year",
                 ),
@@ -105,9 +106,6 @@ app.layout = html.Div([
                     'maxWidth': '1300px',
                     'overflowY' : 'scroll',
                     'maxHeight': '500px',},
-                style_data={
-                    'whiteSpace': 'normal',   
-                    },
                 export_format='xlsx',
                 export_headers='display',
                 merge_duplicate_headers=True
@@ -130,7 +128,7 @@ app.layout = html.Div([
 )
 
 def update_rows(selected_value):
-    data_updated = df[df['Year'] == selected_value]
+    data_updated = df[df['Year Founded'] == selected_value]
     columns_updated = [{"name": i, "id": i} for i in data_updated.columns]
     return [dash_table.DataTable(data=data_updated, columns=columns_updated)]
 
