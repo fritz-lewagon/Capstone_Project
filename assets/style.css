@@ -51,10 +51,9 @@ h1 {
     padding: 30px;                             /* Internal space */
     border-radius: 4px;                        /* Small radius */
     box-shadow: 0 10px 30px rgba(0,0,0,.1);
-    margin-left: 35px;
-    margin-right: 35px;
-    margin-top: 15px;
+    max-height: 500px;
 }
+
 
 #drop-down-year {
     width: 400px;

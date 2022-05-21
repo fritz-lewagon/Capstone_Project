@@ -6,7 +6,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import plotly.graph_objects as go
-import seaborn as sns
 
 
 
@@ -33,8 +32,6 @@ inplace = TRUE)
 
 # dash has problems with NAs, therefore they are filled with a string
 df = df.fillna("No Information")
-
-
 
 
 # dash starts here
@@ -68,6 +65,7 @@ app.layout = html.Div([
                 ], id = "drop-down-year",
                 ),
 
+
                 html.Div([
                     html.Label("Stage", className='dropdown-labels'),
                     dcc.Dropdown(
@@ -78,7 +76,6 @@ app.layout = html.Div([
                 ),
         ],id = "drop-downs"
         ),
-
 
 
             # @Miron --> start working here
@@ -106,9 +103,15 @@ app.layout = html.Div([
                     },
                 style_table={
                     'maxWidth': '1300px',
-                    'maxHeight' : '500px',
-                    'overflowY': 'scroll'
+                    'overflowY' : 'scroll',
+                    'maxHeight': '500px',},
+                style_data={
+                    'whiteSpace': 'normal',   
                     },
+                export_format='xlsx',
+                export_headers='display',
+                merge_duplicate_headers=True
+
                 ),
                 
             ], 
@@ -121,9 +124,15 @@ app.layout = html.Div([
 
 
 ### Callbacks to make the app interactive
+@app.callback(
+    Output('table', 'rows'), 
+    [Input('year-dropdown', 'value')]
+)
 
-
-
+def update_rows(selected_value):
+    data_updated = df[df['Year'] == selected_value]
+    columns_updated = [{"name": i, "id": i} for i in data_updated.columns]
+    return [dash_table.DataTable(data=data_updated, columns=columns_updated)]
 
 
 if __name__ == '__main__':
