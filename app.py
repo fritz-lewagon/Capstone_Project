@@ -6,7 +6,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import plotly.graph_objects as go
-import seaborn as sns
 
 
 
@@ -36,16 +35,6 @@ df = df.fillna("No Information")
 
 
 
-columns = df.columns
-table = go.Figure(data=[go.Table(
-    header=dict(values=columns),
-    cells=dict(values=[df[c] for c in columns])
-)])
-
-
-
-
-
 # dash starts here
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -70,6 +59,7 @@ app.layout = html.Div([
             options=[{"label": x, "value": x} for x in df["Year Founded"].unique()],
             multi=True,
             className='dropdown-fields',
+            id='year-dropdown',
             ),
 
             html.Label("Stage", className='dropdown-labels'),
@@ -88,10 +78,6 @@ app.layout = html.Div([
         #data part
         html.Div([
             dash_table.DataTable(
-                style_data={
-                    'whiteSpace': 'normal',
-                    'height': 'auto',
-                    },
                 id='table',
                 columns=[{"name": i, "id": i} for i in df.columns],
                 data=df.to_dict('records'),
@@ -105,7 +91,14 @@ app.layout = html.Div([
                     },
                 style_table={
                     'maxWidth': '1300px',
-                    'overflowY' : 'scroll',}
+                    'overflowY' : 'scroll',
+                    'maxHeight': '500px',},
+                style_data={
+                    'whiteSpace': 'normal',   
+                    },
+                export_format='xlsx',
+                export_headers='display',
+                merge_duplicate_headers=True
                 ),
             ], id = "data-container"),
 
@@ -116,9 +109,15 @@ app.layout = html.Div([
 
 
 ### Callbacks to make the app interactive
+@app.callback(
+    Output('table', 'rows'), 
+    [Input('year-dropdown', 'value')]
+)
 
-
-
+def update_rows(selected_value):
+    data_updated = df[df['Year'] == selected_value]
+    columns_updated = [{"name": i, "id": i} for i in data_updated.columns]
+    return [dash_table.DataTable(data=data_updated, columns=columns_updated)]
 
 
 if __name__ == '__main__':
