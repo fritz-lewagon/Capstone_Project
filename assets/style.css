@@ -1,3 +1,5 @@
+@import url("components/dropdown.css");
+
 body {
     background: #F7F9FC;
     color: #575F7D;
@@ -22,7 +24,6 @@ h1 {
 
 
 .dropdown-labels {
-    margin-left: 20px;
     font-weight: bold;
 }
 
@@ -55,22 +56,32 @@ h1 {
 }
 
 
-#drop-down-year {
-    width: 400px;
-}
-
-#drop-down-stage{
-    width: 400px;
-}
-
-
 /********************* BUTTONS *********************/
+
+.export {
+    width: 240px;
+    height: 40px;
+    border-radius: 5px;
+    border: 0px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.export:hover {
+    background-color: #FFBD59;
+    color: white;
+}
 
 #update-button {
     width: 240px;
     height: 40px;
     border-radius: 5px;
-    margin-left: 38px;
     margin-top: 30px;
     border: 0px;
     cursor: pointer;
