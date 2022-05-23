@@ -1,0 +1,12 @@
+#drop-downs {
+    display: flex;
+    justify-content: right;
+}
+
+#drop-down-year {
+    width: 300px;
+}
+
+#drop-down-stage{
+    width: 300px;
+}

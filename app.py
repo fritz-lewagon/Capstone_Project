@@ -122,15 +122,34 @@ app.layout = html.Div([
 
 
 ### Callbacks to make the app interactive
-@app.callback(
-    Output('table', 'rows'), 
-    [Input('year-dropdown', 'value')]
-)
+# component_id = what initial component are you referring to
+# component_property @ Output = property you want to change, 
+#                    @ Input  = when this changes, the callback is triggered
 
-def update_rows(selected_value):
-    data_updated = df[df['Year Founded'] == selected_value]
-    columns_updated = [{"name": i, "id": i} for i in data_updated.columns]
-    return [dash_table.DataTable(data=data_updated, columns=columns_updated)]
+
+# @app.callback(
+#     Output('table', 'data'),
+#     Output('table', 'columns'),
+#     Input('year-dropdown', 'value')
+# )
+    
+# def update_table(cols):
+#     columns=[{"name": col, "id": col} for col in cols]
+#     data=df[cols].to_dict('records')
+#     return data, columns
+
+
+# @app.callback(
+#     Output('table', 'data'), 
+#     [Input('year-dropdown', 'value')]
+# )
+
+# def update_rows(selected_value):
+#     #data_updated = df[df['Year Founded'] == "selected_value"]
+#     data_updated = df[df['Year Founded'] == selected_value]
+#     columns_updated = [{"name": i, "id": i} for i in data_updated.columns]
+#     return data_updated.to_dict('records')
+#     #return [dash_table.DataTable(data=data_updated.to_dict('records'), columns=columns_updated)]
 
 
 if __name__ == '__main__':
