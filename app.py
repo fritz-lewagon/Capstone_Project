@@ -26,9 +26,12 @@ df = pd.read_csv("data/final_list.csv")
 df.rename(columns={"Unnamed: 0": "Index", "comp_name": "Company", "description": "Description",
 "business_model": "Business Model", "customer": "Target Customer", "keywords": "Keywords",
 "stage": "Stage", "total_funding": "Total Funding (in M€)", "num_investors": "Number of Investors",
-"date_founded": "Year Founded", "location": "Location", "employees": "Employees", "website": "website"}, 
+"date_founded": "Year Founded", "location": "Location", "employees": "Employees", "website": "Website"}, 
 inplace = TRUE)
 
+
+#drop Index
+df = df.drop("Index", axis=1)
 
 # dash has problems with NAs, therefore they are filled with a string
 df = df.fillna("No Information")
@@ -47,31 +50,34 @@ app.layout = html.Div([
             html.Img(src=("/assets/Logo.png")),
             html.H1(children="Start Up List"),
             html.P(children="Last scrape was the 12.12.12"),
+            html.Button("Update", id='update-button'),
         ], 
         id = "header-container"),
 
 
-         # interactive part
+    
+
+        #data part
         html.Div([
-            
+
             html.Div([
                 
+                #first drop down
                 html.Div([
                     html.Label("Year", className='dropdown-labels'),
                     dcc.Dropdown(
                     options=[{"label": x, "value": x} for x in df["Year Founded"].unique()],
-                    multi=True,
                     id = "year-dropdown"
                     ),
                 ], id = "drop-down-year",
                 ),
 
-
+                #second drop down
                 html.Div([
                     html.Label("Stage", className='dropdown-labels'),
                     dcc.Dropdown(
                     options=[{"label": x, "value": x} for x in df["Stage"].unique()],
-                    multi=True,
+                    id = "stage-dropdown",
                     ),
                 ], id = "drop-down-stage",
                 ),
@@ -79,33 +85,43 @@ app.layout = html.Div([
         ),
 
 
-            # @Miron --> start working here
-            html.Button("Update", id='update-button'),
-        ], 
-        id = "interactive-container"),
-
-
-        #data part
-        html.Div([
             dash_table.DataTable(
                 id='table',
                 columns=[{"name": i, "id": i} for i in df.columns],
                 data=df.to_dict('records'),
-                page_size=20,
+                page_size=10,
                 style_data={
                     'whiteSpace': 'normal',
                     'height': 'auto',
                 },
                 style_cell={
                     'textAlign': 'left', 
-                    'padding': '5px'},
+                    'padding': '5px',
+                    # 'width': '150px',
+                    },
                 style_header={
                     'fontWeight': 'bold'
                     },
                 style_table={
                     'maxWidth': '1300px',
                     'overflowY' : 'scroll',
-                    'maxHeight': '500px',},
+                    'overflowX' : 'scroll',
+                    'maxHeight': '500px',
+                    },
+                style_cell_conditional=[
+                    {
+                        'if': {'column_id': 'Description'},
+                        'width': '500px',
+                    },
+                ],
+                fixed_columns = {
+                    "headers": True,
+                    "data" : 1,
+                },
+                # fixed_rows = {
+                #     "headers": True,
+                #     "data" : 0,
+                # },
                 export_format='xlsx',
                 export_headers='display',
                 merge_duplicate_headers=True
@@ -127,29 +143,22 @@ app.layout = html.Div([
 #                    @ Input  = when this changes, the callback is triggered
 
 
-# @app.callback(
-#     Output('table', 'data'),
-#     Output('table', 'columns'),
-#     Input('year-dropdown', 'value')
-# )
-    
-# def update_table(cols):
-#     columns=[{"name": col, "id": col} for col in cols]
-#     data=df[cols].to_dict('records')
-#     return data, columns
-
 
 # @app.callback(
 #     Output('table', 'data'), 
-#     [Input('year-dropdown', 'value')]
+#     Input('year-dropdown', 'value'),
+#     Input('stage-dropdown', 'value')
 # )
 
-# def update_rows(selected_value):
-#     #data_updated = df[df['Year Founded'] == "selected_value"]
-#     data_updated = df[df['Year Founded'] == selected_value]
-#     columns_updated = [{"name": i, "id": i} for i in data_updated.columns]
-#     return data_updated.to_dict('records')
-#     #return [dash_table.DataTable(data=data_updated.to_dict('records'), columns=columns_updated)]
+# def update_rows(selected_year, selected_stage):
+#     dff = df.copy()
+
+#     if selected_year:
+#         dff = dff[dff['Year Founded'] == selected_year]
+#     if selected_stage:
+#         dff = dff[dff['Stage'] == selected_stage]
+
+#     return dff.to_dict('records')
 
 
 if __name__ == '__main__':
