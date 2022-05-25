@@ -142,23 +142,21 @@ app.layout = html.Div([
 # component_property @ Output = property you want to change, 
 #                    @ Input  = when this changes, the callback is triggered
 
+@app.callback(
+    Output('table', 'data'), 
+    Input('year-dropdown', 'value'),
+    Input('stage-dropdown', 'value')
+)
 
+def update_rows(selected_year, selected_stage):
+    dff = df.copy()
 
-# @app.callback(
-#     Output('table', 'data'), 
-#     Input('year-dropdown', 'value'),
-#     Input('stage-dropdown', 'value')
-# )
+    if selected_year:
+        dff = dff[dff['Year Founded'] == selected_year]
+    if selected_stage:
+        dff = dff[dff['Stage'] == selected_stage]
 
-# def update_rows(selected_year, selected_stage):
-#     dff = df.copy()
-
-#     if selected_year:
-#         dff = dff[dff['Year Founded'] == selected_year]
-#     if selected_stage:
-#         dff = dff[dff['Stage'] == selected_stage]
-
-#     return dff.to_dict('records')
+    return dff.to_dict('records')
 
 
 if __name__ == '__main__':
