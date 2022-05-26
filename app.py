@@ -97,7 +97,6 @@ app.layout = html.Div([
                 style_cell={
                     'textAlign': 'left', 
                     'padding': '5px',
-                    # 'width': '150px',
                     },
                 style_header={
                     'fontWeight': 'bold'
