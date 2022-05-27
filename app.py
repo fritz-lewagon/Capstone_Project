@@ -39,7 +39,7 @@ df = df.fillna("No Information")
 
 # dash starts here
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
+server = app.server
 
 
 
@@ -49,7 +49,7 @@ app.layout = html.Div([
         html.Div([
             html.Img(src=("/assets/Logo.png")),
             html.H1(children="Start Up List"),
-            html.P(children="Last scrape was the 12.12.12"),
+            html.P(children="Last scrape was the 21.05.22"),
             html.Button("Update", id='update-button'),
         ], 
         id = "header-container"),
@@ -142,21 +142,21 @@ app.layout = html.Div([
 # component_property @ Output = property you want to change, 
 #                    @ Input  = when this changes, the callback is triggered
 
-@app.callback(
-    Output('table', 'data'), 
-    Input('year-dropdown', 'value'),
-    Input('stage-dropdown', 'value')
-)
+# @app.callback(
+#     Output('table', 'data'), 
+#     Input('year-dropdown', 'value'),
+#     Input('stage-dropdown', 'value')
+# )
 
-def update_rows(selected_year, selected_stage):
-    dff = df.copy()
+# def update_rows(selected_year, selected_stage):
+#     dff = df.copy()
 
-    if selected_year:
-        dff = dff[dff['Year Founded'] == selected_year]
-    if selected_stage:
-        dff = dff[dff['Stage'] == selected_stage]
+#     if selected_year:
+#         dff = dff[dff['Year Founded'] == selected_year]
+#     if selected_stage:
+#         dff = dff[dff['Stage'] == selected_stage]
 
-    return dff.to_dict('records')
+#     return dff.to_dict('records')
 
 
 if __name__ == '__main__':
