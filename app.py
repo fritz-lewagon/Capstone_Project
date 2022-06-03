@@ -49,8 +49,8 @@ app.layout = html.Div([
         html.Div([
             html.Img(src=("/assets/Logo.png")),
             html.H1(children="Start Up List"),
-            html.P(children="Last scrape was the 21.05.22"),
-            html.Button("Update", id='update-button'),
+            html.P(id='scraping-date', children="Last scrape was the 21.05.22"),
+            html.Button("Update", id='update-button', n_clicks=0),
         ], 
         id = "header-container"),
 
@@ -156,6 +156,21 @@ app.layout = html.Div([
 #         dff = dff[dff['Stage'] == selected_stage]
 
 #     return dff.to_dict('records')
+
+
+### Callbacks for update button
+
+## Run script
+@app.callback(
+    [Output('scraping-date', 'children')], [Output('table', 'data')],
+    [Input('update-button', 'n_clicks')]
+    )
+def run_scraper_update_content(n_clicks):
+    if n_clicks:
+        script_path = './test.py'
+        exec(open(script_path).read())
+        df = pd.read_csv("data/final_list.csv")
+        return 'Last scraped on xxx, Total times updated: {}'.format(n_clicks), df.to_dict('records')
 
 
 if __name__ == '__main__':
