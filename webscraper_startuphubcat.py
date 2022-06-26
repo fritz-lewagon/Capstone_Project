@@ -7,6 +7,7 @@ import bs4
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class ScraperStartupHubCatalonia():
@@ -36,9 +37,7 @@ class ScraperStartupHubCatalonia():
         #chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--headless")
         # chrome_options.headless = True # also works
-        driver = webdriver.Chrome(options=chrome_options)       
-        
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())       
         self.driver.get('http://startupshub.catalonia.com/list-of-startups')
        
         
@@ -46,7 +45,7 @@ class ScraperStartupHubCatalonia():
         self.startups = bs4.BeautifulSoup(self.driver.page_source).find_all(class_ = 'activitat')
         
         while(True):
-            time.sleep(6)
+            time.sleep(10)
             try:
                 for startup in self.startups:
                     self.get_startup(startup)
