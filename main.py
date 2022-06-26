@@ -103,6 +103,5 @@ if __name__ == "__main__":
     # Store final dataframe as csv
     df.to_csv('final_list.csv')
     # Store new startups as csv
-    df_new_startups('new_startups.csv')
-
+    df_new_startups.to_csv('new_startups.csv')
         
