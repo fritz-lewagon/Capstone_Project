@@ -48,7 +48,7 @@ class ScraperElReferente():
     
     def get_comp_url(self):
         for a in self.a_urls:
-            article = requests.get(a))
+            article = requests.get(a)
             soup_content = bs4.BeautifulSoup(article.content)
             
             for i in soup_content.find_all('h5', class_='startup-item-title'):
@@ -57,31 +57,94 @@ class ScraperElReferente():
                 except:
                     self.c_urls.append(i.find('a')['href'])
 
-if __name__ == "__main__":
-    scraper = ScraperElReferente()
-    scraper.get_articles()
-    scraper.get_article_url()
-    scraper.articles
-    scraper.a_urls
+    def get_startups(self):
+        
+        for c in self.c_urls:
+            page = requests.get(c)
+            page_content = bs4.BeautifulSoup(page.content)
 
-        # 1) create function that gets comp urls
-        # 2) create function for one startup (get_startup) that gets all the info below for that startup
-
-
-        # 2) create function (get_startups) that gets all the info for each element in the comp_url
-
-
-        # get all comp urls
-        # for each comp url, get the:
             # name
+            try:
+                self.startup_list['comp_name'].append(page_content.find('h2', class_ = 'title').text.replace('\n', '').replace('  ', ''))
+            except:
+                self.startup_list['comp_name'].append('')
+
             # description
+            try:
+                self.startup_list['description'].append(page_content.find('div', class_ = 'description blue-links').text.replace('\n', '').replace('\xa0', ''))
+            except:
+                self.startup_list['description'].append('')
+
             # 'business_model'
+            self.startup_list['business_model'].append('')
+
             # 'customer'
+            try:
+                self.startup_list['customer'].append(page_content.find('div', class_ = 'section section-info blue-links').find_all('div', class_= 'value')[-1].text.replace('\n', '').replace(' ', ''))
+            except:
+                self.startup_list['customer'].append('')
+
             # 'keywords'
+            try:
+                self.startup_list['keywords'].append(page_content.find('div', class_ = 'flex-row tags highlight').text.replace('\n', '').replace(' ', ''))
+            except:
+                self.startup_list['keywords'].append('')
+            
             # 'stage'
+            self.startup_list['stage'].append('')
+
             # 'total_funding'
+            infos = []
+            for i in page_content.find('div', class_='flex-row info-container').find_all('div', class_='value'):
+                infos.append(i.text.replace(' ', '').replace('\n', ''))
+            
+            try:
+                if infos[1] == 'N/D':
+                    self.startup_list['total_funding'].append('')
+                else:
+                    self.startup_list['total_funding'].append(float(infos[1].replace(',', '.').replace('M€', '')))
+
+            except:
+                self.startup_list['total_funding'].append('')
+
+            
             # 'num_investors'
+            try:
+                self.startup_list['num_investors'].append(infos[2])
+            except:
+                self.startup_list['num_investors'].append('')
+        
             # 'date_founded'
+            try:
+                self.startup_list['date_founded'].append(infos[0])
+            except:
+                self.startup_list['date_founded'].append('')
+
             # 'location'
+            try:
+                self.startup_list['location'].append(page_content.find('div', class_ = 'value icon-location').text.replace('\n', '').replace('  ', ''))
+            except:
+                self.startup_list['location'].append('')
+
             # 'employees'
+            try:    
+                empl = page_content.find('div', class_ = 'value blur-no-auth').text.replace('\n', '').replace(' ', '')
+                if len(empl)>1:
+                    empl = empl
+                else:
+                    empl = ''
+                self.startup_list['employees'].append(empl)
+            except:
+                self.startup_list['employees'].append('')
+
             # 'website'
+            try:
+                self.startup_list['website'].append(page_content.find('a', class_ = 'blue')['href'])
+            except:
+                self.startup_list['website'].append('')
+    
+    def clean_data(self):
+        self.df = pd.DataFrame(self.startup_list)
+
+
+
