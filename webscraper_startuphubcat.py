@@ -46,7 +46,7 @@ class ScraperStartupHubCatalonia():
         self.startups = bs4.BeautifulSoup(self.driver.page_source).find_all(class_ = 'activitat')
         
         while(True):
-            time.sleep(4)
+            time.sleep(6)
             try:
                 for startup in self.startups:
                     self.get_startup(startup)

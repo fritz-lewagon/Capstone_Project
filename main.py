@@ -1,5 +1,7 @@
 import webscraper_startuphubcat
 from webscraper_startuphubcat import ScraperStartupHubCatalonia
+import webscraper_elreferente
+from webscraper_elreferente import ScraperElReferente
 import pandas as pd
 import numpy as np
 
@@ -14,7 +16,13 @@ if __name__ == "__main__":
     df_shc = scraper_shc.df
 
     # Run ElReferente scraper
-    df_referente = pd.read_csv('el_referente.csv').drop(columns = 'Unnamed: 0')
+    scraper_ref = ScraperElReferente()
+    scraper_ref.get_articles()
+    scraper_ref.get_article_url()
+    scraper_ref.get_comp_url()
+    scraper_ref.get_startups()
+
+    df_referente = scraper_ref.clean_data()
 
     # Run Levin scraper
 
